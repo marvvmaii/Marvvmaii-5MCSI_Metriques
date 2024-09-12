@@ -48,8 +48,12 @@ def commits():
 @app.route('/get-commits/')
 def get_commits():
     url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
-    response = requests.get(url)
-    commits_data = response.json()
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Vérifie si la requête a échoué
+        commits_data = response.json()
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': str(e)})
 
     # Extraire les minutes de chaque commit
     commits_by_minute = {}
@@ -64,6 +68,7 @@ def get_commits():
             commits_by_minute[minute] = 1
 
     return jsonify(commits_by_minute=commits_by_minute)
+
 
 
   
