@@ -16,11 +16,9 @@
 
             var options = {
                 title: 'Commits par Minute',
-                legend: { position: 'right' },  // Positionner la légende sur le côté droit
+                legend: { position: 'right' },
                 pieSliceText: 'label',
-                slices: { 
-                    // Ajouter un offset pour les secteurs avec des données significatives, si nécessaire
-                },
+                slices: {},
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -31,13 +29,20 @@
         function fetchCommits() {
             const url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits';
 
-            // Utiliser Fetch API pour envoyer la requête
             fetch(url)
                 .then(response => response.json())
                 .then(commits => {
+                    // Vérification de la structure des données
+                    console.log(commits);  // Loguer les commits pour vérifier leur format
+
+                    if (!Array.isArray(commits)) {
+                        console.error('La réponse de l\'API n\'est pas un tableau. Vérifiez la limite de requêtes ou la validité de l\'URL.');
+                        return;
+                    }
+
                     // Créer un tableau pour stocker les minutes des commits
                     let commitMinutes = [['Minute', 'Nombre de Commits']];
-                    let minuteCount = Array(60).fill(0);  // Tableau pour compter les commits par minute
+                    let minuteCount = Array(60).fill(0);
 
                     // Extraire les minutes de chaque commit
                     commits.forEach(commit => {
