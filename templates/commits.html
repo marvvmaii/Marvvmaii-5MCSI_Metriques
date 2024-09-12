@@ -38,36 +38,38 @@
             chart.draw(data, options);
         }
 
-        // Fonction pour extraire les commits depuis l'API GitHub
         function fetchCommits() {
-            const url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits';
+    const url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits';
 
-            // Utiliser Fetch API pour envoyer la requête
-            fetch(url)
-                .then(response => response.json())
-                .then(commits => {
-                    // Créer un tableau pour stocker les minutes des commits
-                    let commitMinutes = [['Minute', 'Nombre de Commits']];
-                    let minuteCount = Array(60).fill(0);  // Tableau pour compter les commits par minute
+    fetch(url)
+        .then(response => response.json())
+        .then(commits => {
+            // Vérifier si les commits sont bien récupérés
+            console.log(commits);
 
-                    // Extraire les minutes de chaque commit
-                    commits.forEach(commit => {
-                        const commitDate = new Date(commit.commit.author.date);
-                        const minute = commitDate.getMinutes();
-                        minuteCount[minute]++;
-                    });
+            let commitMinutes = [['Minute', 'Nombre de Commits']];
+            let minuteCount = Array(60).fill(0);
 
-                    // Convertir minuteCount en format utilisable pour Google Charts
-                    for (let i = 0; i < minuteCount.length; i++) {
-                        if (minuteCount[i] > 0) {
-                            commitMinutes.push([i.toString() + ' min', minuteCount[i]]);
-                        }
-                    }
+            commits.forEach(commit => {
+                const commitDate = new Date(commit.commit.author.date);
+                const minute = commitDate.getMinutes();
+                minuteCount[minute]++;
+            });
 
-                    // Dessiner l'histogramme avec les données extraites
-                    drawChart(commitMinutes);
-                })
-                .catch(error => console.error('Erreur lors de la récupération des commits:', error));
+            for (let i = 0; i < minuteCount.length; i++) {
+                if (minuteCount[i] > 0) {
+                    commitMinutes.push([i.toString() + ' min', minuteCount[i]]);
+                }
+            }
+
+            // Afficher les données dans la console
+            console.log(commitMinutes);
+
+            drawChart(commitMinutes);
+        })
+        .catch(error => console.error('Erreur lors de la récupération des commits:', error));
+}
+
         }
     </script>
 </head>
