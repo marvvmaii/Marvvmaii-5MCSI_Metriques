@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Graphique Donut des Températures</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  </head>
+  <body>
+    <h2>Répartition des Températures de Tawarano (Donut)</h2>
+    <div id="donut_chart_div"></div>
+    <script>
+      google.charts.load('current', { packages: ['corechart'] });
+      google.charts.setOnLoadCallback(drawDonut);
+
+      function drawDonut() {
+        fetch('/tawarano/')
+          .then(response => response.json())
+          .then(data => {
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Date');
+            dataTable.addColumn('number', 'Température (°C)');
+
+            // Ajouter les données au tableau sous forme de Donut (Camembert avec trou)
+            data.results.forEach(entry => {
+              var date = new Date(entry.Jour * 1000);
+              dataTable.addRow([date.toLocaleDateString(), entry.temp]);
+            });
+
+            var options = {
+              title: 'Répartition des températures de Tawarano',
+              pieHole: 0.4,  // Définir la taille du trou au centre
+              legend: { position: 'bottom' },
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donut_chart_div'));
+            chart.draw(dataTable, options);
+          });
+      }
+    </script>
+  </body>
+</html>
