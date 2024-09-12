@@ -4,7 +4,7 @@ from flask import json
 from datetime import datetime
 from urllib.request import urlopen
 import sqlite3
-import requests
+
 
                                                                                                                                     
 app = Flask(__name__)                                                                                                                
@@ -44,32 +44,6 @@ def mondonut():
 @app.route("/commits/")
 def commits():
     return render_template("commits.html")
-
-@app.route('/get-commits/')
-def get_commits():
-    url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # Vérifie si la requête a échoué
-        commits_data = response.json()
-    except requests.exceptions.RequestException as e:
-        return jsonify({'error': str(e)})
-
-    # Extraire les minutes de chaque commit
-    commits_by_minute = {}
-    for commit in commits_data:
-        commit_date_str = commit['commit']['author']['date']
-        commit_date = datetime.strptime(commit_date_str, '%Y-%m-%dT%H:%M:%SZ')
-        minute = commit_date.minute
-
-        if minute in commits_by_minute:
-            commits_by_minute[minute] += 1
-        else:
-            commits_by_minute[minute] = 1
-
-    return jsonify(commits_by_minute=commits_by_minute)
-
-
 
   
 if __name__ == "__main__":
