@@ -16,10 +16,10 @@
 
             var options = {
                 title: 'Commits par Minute',
-                legend: 'none',
+                legend: { position: 'right' },  // Positionner la légende sur le côté droit
                 pieSliceText: 'label',
                 slices: { 
-                    // Ajouter un offset pour les secteurs avec des données significatives
+                    // Ajouter un offset pour les secteurs avec des données significatives, si nécessaire
                 },
             };
 
@@ -65,3 +65,4 @@
     <div id="piechart" style="width: 900px; height: 500px;"></div>
 </body>
 </html>
+
