@@ -27,7 +27,7 @@ def meteo():
         results.append({'Jour': dt_value, 'temp': temp_day_value})
     return jsonify(results=results)
 
-@app.route("/rapport/")
+@app.route("/histogramme/")
 def mongraphique():
     return render_template("graphique.html")
   
