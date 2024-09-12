@@ -5,8 +5,8 @@ from datetime import datetime
 from urllib.request import urlopen
 import sqlite3
 import requests
-from datetime import datetime
-                                                                                                                                       
+
+                                                                                                                                    
 app = Flask(__name__)                                                                                                                
                                                                                                                                        
 @app.route('/')
