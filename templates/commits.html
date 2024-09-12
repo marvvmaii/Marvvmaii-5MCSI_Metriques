@@ -3,27 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Commits par Minute - Pie Chart</title>
+    <title>Commits par Minute - Histogramme</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         // Charger Google Charts
         google.charts.load("current", {packages:["corechart"]});
         google.charts.setOnLoadCallback(fetchCommits);
 
-        // Fonction pour dessiner le graphique
+        // Fonction pour dessiner l'histogramme
         function drawChart(commitMinutes) {
             var data = google.visualization.arrayToDataTable(commitMinutes);
 
             var options = {
                 title: 'Commits par Minute',
-                legend: { position: 'right' },  // Positionner la légende sur le côté droit
-                pieSliceText: 'label',
-                slices: { 
-                    // Ajouter un offset pour les secteurs avec des données significatives, si nécessaire
+                hAxis: { 
+                    title: 'Minute',
+                    titleTextStyle: { color: '#333' },
+                    slantedText: true,  // Incline les labels si trop denses
+                    slantedTextAngle: 45,  // Angle pour les labels inclinés
                 },
+                vAxis: {
+                    title: 'Nombre de Commits',
+                    minValue: 0,
+                    titleTextStyle: { color: '#333' },
+                },
+                legend: { position: 'none' },  // Pas de légende pour un histogramme
+                colors: ['#4285F4'],  // Couleur personnalisée des barres
+                bar: { groupWidth: '75%' },  // Largeur des barres
+                backgroundColor: '#f4f4f4',  // Couleur de fond
+                chartArea: { width: '80%', height: '70%' }  // Taille du graphique
             };
 
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            var chart = new google.visualization.ColumnChart(document.getElementById('histogram'));
             chart.draw(data, options);
         }
 
@@ -53,7 +64,7 @@
                         }
                     }
 
-                    // Dessiner le graphique avec les données extraites
+                    // Dessiner l'histogramme avec les données extraites
                     drawChart(commitMinutes);
                 })
                 .catch(error => console.error('Erreur lors de la récupération des commits:', error));
@@ -61,7 +72,7 @@
     </script>
 </head>
 <body>
-    <h1>Commits par Minute - Pie Chart</h1>
-    <div id="piechart" style="width: 900px; height: 500px;"></div>
+    <h1>Commits par Minute - Histogramme</h1>
+    <div id="histogram" style="width: 900px; height: 500px;"></div>
 </body>
 </html>
