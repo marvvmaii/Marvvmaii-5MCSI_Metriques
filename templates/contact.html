@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Contactez-nous</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 60%;
+        margin: auto;
+        overflow: hidden;
+      }
+      #contact-form {
+        background: white;
+        padding: 30px;
+        margin-top: 50px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      input[type="text"], textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      label {
+        margin-top: 10px;
+        display: block;
+        font-weight: bold;
+      }
+      .submit-btn {
+        background-color: #5cb85c;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+      .submit-btn:hover {
+        background-color: #4cae4c;
+      }
+      h2 {
+        text-align: center;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="contact-form">
+        <h2>Contactez-nous</h2>
+        <form>
+          <label for="first_name">Prénom :</label>
+          <input type="text" id="first_name" name="first_name" placeholder="Votre prénom">
+
+          <label for="last_name">Nom :</label>
+          <input type="text" id="last_name" name="last_name" placeholder="Votre nom">
+
+          <label for="message">Message :</label>
+          <textarea id="message" name="message" rows="5" placeholder="Votre message"></textarea>
+
+          <button type="submit" class="submit-btn">Envoyer</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
